@@ -1,67 +1,43 @@
 package com.nishant.jpa.complete.tutorial.controller;
 
-import com.nishant.jpa.complete.tutorial.config.MyUserDetailsService;
 import com.nishant.jpa.complete.tutorial.model.AuthRequest;
 import com.nishant.jpa.complete.tutorial.model.AuthResponse;
-import com.nishant.jpa.complete.tutorial.util.JwtUtil;
+import com.nishant.jpa.complete.tutorial.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class LoginController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private MyUserDetailsService myUserDetailsService;
-
-    @Autowired
-    private JwtUtil jwtUtil;
+    LoginService loginService;
 
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @PostMapping("/login")
-    public ResponseEntity<?> token(@RequestBody AuthRequest authRequest) throws BadCredentialsException{
-        logger.info("Req. name: "+ authRequest.getUsername() + " pass: "+ authRequest.getPassword());
+    public ResponseEntity<AuthResponse> token(String username, String password) throws BadCredentialsException {
 
-        try {
+        logger.info(String.format("requestPayload: username: %s password: %s", username, password));
 
-            //Authenticate Username and Password:
+        AuthRequest authRequest = new AuthRequest();
+        authRequest.setUsername(username);
+        authRequest.setPassword(password);
 
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword());
+        String tokenValue = loginService.generateToken(authRequest);
 
-            authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-
-        }catch (Exception e){
-            logger.error("Exception: "+e.getMessage());
-            throw new BadCredentialsException("Bad Credentials!!");
+        if(tokenValue==null){
+            return ResponseEntity.badRequest().body(new AuthResponse("Bad Credentials!!"));
         }
 
-        // If no exception/ user authenticated :
-        UserDetails userDetails = myUserDetailsService.loadUserByUsername(authRequest.getUsername());
-
-        // Generate token:
-        String token = jwtUtil.generateToken(userDetails);
-
-        logger.info("Token: "+ token);
-
-        return ResponseEntity.ok(new AuthResponse(token));
+        return ResponseEntity.ok(new AuthResponse(tokenValue));
     }
 
     @RequestMapping("/msg")
     public String welcome(){
-        return "Test";
+        return "Test access via JWT token";
     }
 }

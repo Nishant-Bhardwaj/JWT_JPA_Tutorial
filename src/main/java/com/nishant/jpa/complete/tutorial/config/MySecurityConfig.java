@@ -24,7 +24,6 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Auto wiring PasswordEncoder Bean defined as Bean in MyBCrypt.java
-     * @param passwordEncoder
      */
     @Autowired
     public MySecurityConfig(PasswordEncoder passwordEncoder) {
@@ -37,7 +36,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/login")
+                .antMatchers("/login","/index")
                 .permitAll();
 
         http

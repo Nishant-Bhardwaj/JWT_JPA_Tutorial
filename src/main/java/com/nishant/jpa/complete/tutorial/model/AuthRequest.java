@@ -3,10 +3,12 @@ package com.nishant.jpa.complete.tutorial.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.*;
 
-@Entity(name = "AuthRequest")
+@Entity
+@Table(name = "AuthRequest")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
