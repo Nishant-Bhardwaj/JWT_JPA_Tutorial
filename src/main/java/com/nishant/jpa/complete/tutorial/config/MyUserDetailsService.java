@@ -24,8 +24,6 @@ public class MyUserDetailsService implements UserDetailsService {
         if(username.equalsIgnoreCase("nishant"))
             return new User(username, passwordEncoder.encode("pass"), new ArrayList<>());
         else
-            new BadCredentialsException("Bad Credentials");
-
-        return null;
+            throw new BadCredentialsException("Bad Credentials");
     }
 }

@@ -42,7 +42,7 @@ public class LoginController {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword());
 
-            this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+            authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
         }catch (Exception e){
             logger.error("Exception: "+e.getMessage());
@@ -50,10 +50,10 @@ public class LoginController {
         }
 
         // If no exception/ user authenticated :
-        UserDetails userDetails = this.myUserDetailsService.loadUserByUsername(authRequest.getUsername());
+        UserDetails userDetails = myUserDetailsService.loadUserByUsername(authRequest.getUsername());
 
         // Generate token:
-        String token = this.jwtUtil.generateToken(userDetails);
+        String token = jwtUtil.generateToken(userDetails);
 
         logger.info("Token: "+ token);
 
