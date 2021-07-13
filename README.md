@@ -12,6 +12,10 @@ Hibernate:
         upassword varchar2(255 char),
         primary key (username)
     )
+    
+    alter table auth_request 
+       add token varchar2(255 char)
+       
 Hibernate: 
     
     create table complaint_record (
