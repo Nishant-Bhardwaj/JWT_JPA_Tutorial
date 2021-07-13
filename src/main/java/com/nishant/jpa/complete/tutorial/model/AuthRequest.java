@@ -1,9 +1,6 @@
 package com.nishant.jpa.complete.tutorial.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.*;
 
@@ -23,4 +20,6 @@ public class AuthRequest {
     @Column(name = "upassword")
     private String password;
 
+    @Embedded
+    private AuthResponse authResponse;
 }
