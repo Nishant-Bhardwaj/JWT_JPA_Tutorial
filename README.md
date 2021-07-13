@@ -44,9 +44,13 @@ Hibernate:
     alter table complaint_record 
        add constraint UK_m2fwhmije71ei46kmsmb59fkh unique (user_id)
        
-Hibernate: create sequence complaint_sequence start with 1 increment by  1
+Hibernate: 
+    
+    create sequence complaint_sequence start with 1 increment by  1
 
-Hibernate: create sequence user_sequence start with 1 increment by  1
+Hibernate:
+    
+    create sequence user_sequence start with 1 increment by  1
 
 Hibernate: 
     
