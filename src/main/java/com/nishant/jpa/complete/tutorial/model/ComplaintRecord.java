@@ -1,5 +1,6 @@
 package com.nishant.jpa.complete.tutorial.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -39,12 +40,12 @@ public class ComplaintRecord {
 
     @ManyToOne(
             optional = false,
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JoinColumn(
             name = "user_id",
             referencedColumnName = "userId"
     )
+    @JsonIgnoreProperties({"authRequestUsername","complaintRecord"})
     private UserRecord userRecord;
 }

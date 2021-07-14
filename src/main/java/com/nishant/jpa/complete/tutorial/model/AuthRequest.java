@@ -24,7 +24,8 @@ public class AuthRequest {
     private AuthResponse authResponse;
 
     @OneToOne(
-            mappedBy = "authRequestUsername"
+            mappedBy = "authRequestUsername",
+            fetch = FetchType.LAZY
     )
     private UserRecord userRecord;
 }

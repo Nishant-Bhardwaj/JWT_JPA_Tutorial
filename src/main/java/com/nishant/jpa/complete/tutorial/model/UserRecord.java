@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "UserRecord")
@@ -29,8 +30,7 @@ public class UserRecord {
 
     @OneToOne(
             optional = false,
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JoinColumn(
             name = "username",
@@ -48,9 +48,10 @@ public class UserRecord {
 
     //One to one bi-directional
 
-    @OneToOne(
-            mappedBy = "userRecord"
+    @OneToMany(
+            mappedBy = "userRecord",
+            fetch = FetchType.LAZY
     )
-    private ComplaintRecord complaintRecord;
+    private List<ComplaintRecord> complaintRecord;
 
 }

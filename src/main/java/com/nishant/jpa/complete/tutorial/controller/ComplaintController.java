@@ -10,7 +10,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/complaint")
@@ -22,19 +21,17 @@ public class ComplaintController {
     Logger logger = LoggerFactory.getLogger(ComplaintController.class);
 
     @Cacheable(
-            key = "compId",
+            key = "#complaintId",
             value = "ComplaintRecord"
     )
-    @GetMapping(name = "/id/{compId}")
-    public ComplaintRecord getComplaintById(@PathVariable("compId") String compId){
-
-        Long complaintId = Long.parseLong(compId);
+    @GetMapping(value = "/id/{complaintId}")
+    public ComplaintRecord getComplaintById(@PathVariable("complaintId") Long complaintId){
 
         logger.info(String.format("Complaint Id: %s", complaintId));
 
-        ComplaintRecord complaintRecord = complaintService.getComplaintDetailsById(complaintId);
+        var complaintRecord = complaintService.getComplaintDetailsById(complaintId);
 
-        if(complaintRecord==null) throw new NoSuchElementException("Complaint not found!!");
+        logger.info("complaintRecord : "+ complaintRecord.getComplaintId());
 
         return complaintRecord;
     }
@@ -44,7 +41,7 @@ public class ComplaintController {
 
         logger.info(String.format("complaint : %s", complaint));
 
-        ComplaintRecord complaintRecord = complaintService.getInitialComplaintObject(complaint);
+        var complaintRecord = complaintService.getInitialComplaintObject(complaint);
 
         String response = complaintService.fileComplaint(complaintRecord);
 
