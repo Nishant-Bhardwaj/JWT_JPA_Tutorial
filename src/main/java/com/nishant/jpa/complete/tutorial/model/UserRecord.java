@@ -27,11 +27,17 @@ public class UserRecord {
     )
     private Long userId;
 
-    @Column(
+    @OneToOne(
+            optional = false,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
             name = "username",
+            referencedColumnName = "username",
             nullable = false
     )
-    private String username;
+    private AuthRequest authRequestUsername;
 
     private String userEmail;
 

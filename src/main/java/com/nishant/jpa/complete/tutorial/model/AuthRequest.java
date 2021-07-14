@@ -22,4 +22,9 @@ public class AuthRequest {
 
     @Embedded
     private AuthResponse authResponse;
+
+    @OneToOne(
+            mappedBy = "authRequestUsername"
+    )
+    private UserRecord userRecord;
 }
