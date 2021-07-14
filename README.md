@@ -38,6 +38,9 @@ Hibernate:
         username varchar2(255 char) not null,
         primary key (user_id)
     )
+    
+    ** username is mapped as one to one fron auth_request
+    
 Hibernate: 
     
     alter table complaint_record 
