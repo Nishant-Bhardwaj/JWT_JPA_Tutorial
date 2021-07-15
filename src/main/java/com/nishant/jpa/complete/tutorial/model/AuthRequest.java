@@ -5,7 +5,13 @@ import javax.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "AuthRequest")
+@Table(
+        name = "AuthRequest",
+        uniqueConstraints = @UniqueConstraint(
+                name = "username_unique",
+                columnNames = "username"
+        )
+)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
