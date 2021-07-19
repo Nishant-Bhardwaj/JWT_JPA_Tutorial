@@ -19,13 +19,9 @@ public class LoginController {
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> token(String username, String password) throws BadCredentialsException {
+    public ResponseEntity<AuthResponse> token(@RequestBody AuthRequest authRequest) throws BadCredentialsException {
 
-        logger.info(String.format("requestPayload: username: %s password: %s", username, password));
-
-        AuthRequest authRequest = new AuthRequest();
-        authRequest.setUsername(username);
-        authRequest.setPassword(password);
+        logger.info(String.format("requestPayload: username: %s password: %s", authRequest.getUsername(), authRequest.getPassword()));
 
         String tokenValue = loginService.generateToken(authRequest);
 
@@ -36,7 +32,7 @@ public class LoginController {
         return ResponseEntity.ok(new AuthResponse(tokenValue));
     }
 
-    @RequestMapping("/msg")
+    @GetMapping("/msg")
     public String welcome(){
         return "Test access via JWT token";
     }

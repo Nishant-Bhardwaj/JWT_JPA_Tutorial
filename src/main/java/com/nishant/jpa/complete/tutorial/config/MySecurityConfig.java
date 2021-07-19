@@ -3,6 +3,7 @@ package com.nishant.jpa.complete.tutorial.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,21 +38,18 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/login","/index")
-                .permitAll();
-
-        http
-                .authorizeRequests()
-                .anyRequest()
+                .permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**")
+                .permitAll().anyRequest()
                 .authenticated()
-                .and()
-                .httpBasic();
-
-        http
-                .sessionManagement()
+                .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http
                 .csrf().disable();
+
+        http
+                .cors().disable();
 
         // to run Once per request Filter before an request:
         http
