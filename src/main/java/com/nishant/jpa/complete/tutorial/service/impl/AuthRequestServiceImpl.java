@@ -16,4 +16,9 @@ public class AuthRequestServiceImpl implements AuthRequestService {
     public AuthRequest getUserRecordByUsername(String username) {
         return authRequestRepository.getByUsername(username);
     }
+
+    @Override
+    public AuthRequest createAuthUserRecord(AuthRequest authRequest) {
+        return authRequestRepository.saveAndFlush(authRequest);
+    }
 }

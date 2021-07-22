@@ -8,4 +8,6 @@ import org.springframework.stereotype.Service;
 public interface AuthRequestService {
 
     AuthRequest getUserRecordByUsername(String username);
+
+    AuthRequest createAuthUserRecord(AuthRequest authRequest);
 }

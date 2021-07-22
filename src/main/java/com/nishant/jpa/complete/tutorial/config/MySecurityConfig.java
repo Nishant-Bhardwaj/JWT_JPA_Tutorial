@@ -37,7 +37,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/login","/index")
+                .antMatchers("/login","/index","/signup")
                 .permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**")
                 .permitAll().anyRequest()
